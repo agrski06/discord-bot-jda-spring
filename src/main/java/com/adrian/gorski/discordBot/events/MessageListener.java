@@ -4,38 +4,23 @@ import com.adrian.gorski.discordBot.events.commands.map.CommandMap;
 import discord4j.core.object.entity.Message;
 import reactor.core.publisher.Mono;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 public abstract class MessageListener {
 
-    private final String prefix = "!";
-
-    private final Map<String, String> commands = new HashMap<>();
-
-    public MessageListener() {
-        CommandMap commandMap = new CommandMap();
-        commands.putAll(commandMap.getCommands());
-    }
+    private final CommandMap commands = new CommandMap();
 
     public Mono<Void> processCommand(Message eventMessage) {
         String command = eventMessage.getContent().substring(1).strip();
-        if (!command.contains(" ")) {
-            return Mono.just(eventMessage)
-                    .filter(message -> message.getContent().startsWith(prefix))
-                    .filter(message -> message.getAuthor().map(user -> !user.isBot()).orElse(false))
-                    .filter(message -> commands.containsKey(command))
-                    .flatMap(Message::getChannel)
-                    .flatMap(channel -> channel.createMessage(commands.get(command)))
-                    .then();
-        }
-        String[] args = command.split(" ");
+        String[] args = Arrays.stream(command.split(" ")).skip(1).toArray(String[]::new);
+        String finalCommand = command.substring(0, command.indexOf(' '));
+
+        System.out.println(command + " || " + Arrays.toString(args));
         return Mono.just(eventMessage)
-                .filter(message -> message.getContent().startsWith(prefix))
                 .filter(message -> message.getAuthor().map(user -> !user.isBot()).orElse(false))
-                .filter(message -> commands.containsKey(args[0]))
+                .filter(message -> commands.containsKey(finalCommand))
                 .flatMap(Message::getChannel)
-                .flatMap(channel -> channel.createMessage(commands.get(args[0])))
+                .flatMap(channel -> channel.createMessage(commands.get(finalCommand)))
                 .then();
     }
 }
