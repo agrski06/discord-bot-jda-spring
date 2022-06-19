@@ -1,6 +1,6 @@
-package com.adrian.gorski.discordBot.api;
+package com.adrian.gorski.discordBot.api.message;
 
-import com.adrian.gorski.discordBot.config.Bot;
+import com.adrian.gorski.discordBot.bot.config.Bot;
 import lombok.RequiredArgsConstructor;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;

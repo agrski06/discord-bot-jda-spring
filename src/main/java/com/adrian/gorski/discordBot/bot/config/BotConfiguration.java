@@ -1,7 +1,7 @@
-package com.adrian.gorski.discordBot.config;
+package com.adrian.gorski.discordBot.bot.config;
 
-import com.adrian.gorski.discordBot.events.MessageListener;
-import com.adrian.gorski.discordBot.events.ReadyListener;
+import com.adrian.gorski.discordBot.bot.events.MessageListener;
+import com.adrian.gorski.discordBot.bot.events.ReadyListener;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import org.springframework.beans.factory.annotation.Value;

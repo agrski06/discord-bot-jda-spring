@@ -1,4 +1,4 @@
-package com.adrian.gorski.discordBot.config;
+package com.adrian.gorski.discordBot.bot.config;
 
 import lombok.Getter;
 import lombok.Setter;

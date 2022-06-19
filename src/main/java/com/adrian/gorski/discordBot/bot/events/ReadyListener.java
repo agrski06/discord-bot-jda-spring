@@ -1,6 +1,5 @@
-package com.adrian.gorski.discordBot.events;
+package com.adrian.gorski.discordBot.bot.events;
 
-import com.adrian.gorski.discordBot.config.Bot;
 import lombok.RequiredArgsConstructor;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;

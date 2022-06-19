@@ -1,4 +1,4 @@
-package com.adrian.gorski.discordBot.events;
+package com.adrian.gorski.discordBot.bot.events;
 
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;

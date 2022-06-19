@@ -1,4 +1,4 @@
-package com.adrian.gorski.discordBot.api;
+package com.adrian.gorski.discordBot.api.message;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
