@@ -1,26 +1,32 @@
 package com.adrian.gorski.discordBot.events;
 
-import com.adrian.gorski.discordBot.events.commands.map.CommandMap;
-import discord4j.core.object.entity.Message;
-import reactor.core.publisher.Mono;
+import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.util.Arrays;
+import java.util.Objects;
 
-public abstract class MessageListener {
+public class MessageListener extends ListenerAdapter {
 
-    private final CommandMap commands = new CommandMap();
+    @Override
+    public void onMessageReceived(MessageReceivedEvent event) {
+        Message message = event.getMessage();
+        if (message.getContentRaw().charAt(0) != '!') return;
+        if (event.isFromType(ChannelType.PRIVATE)) {
+            System.out.printf("[PM] %s: %s\n", event.getAuthor().getName(),
+                    event.getMessage().getContentDisplay());
+        }
+        else {
+            System.out.printf("[%s][%s] %s: %s\n", event.getGuild().getName(),
+                    event.getTextChannel().getName(), Objects.requireNonNull(event.getMember()).getEffectiveName(),
+                    event.getMessage().getContentDisplay());
 
-    public Mono<Void> processCommand(Message eventMessage) {
-        String command = eventMessage.getContent().substring(1).strip();
-        String[] args = Arrays.stream(command.split(" ")).skip(1).toArray(String[]::new);
-        String finalCommand = command.substring(0, command.indexOf(' '));
+            System.out.println(Arrays.toString(event.getMember().getRoles().stream().map(Role::getName).toArray()));
 
-        System.out.println(command + " || " + Arrays.toString(args));
-        return Mono.just(eventMessage)
-                .filter(message -> message.getAuthor().map(user -> !user.isBot()).orElse(false))
-                .filter(message -> commands.containsKey(finalCommand))
-                .flatMap(Message::getChannel)
-                .flatMap(channel -> channel.createMessage(commands.get(finalCommand)))
-                .then();
+        }
     }
 }
