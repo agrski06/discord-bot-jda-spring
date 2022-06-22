@@ -1,14 +1,9 @@
 package com.adrian.gorski.discordBot.bot.events;
 
-import net.dv8tion.jda.api.entities.ChannelType;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-
-import java.util.Arrays;
-import java.util.Objects;
+import net.dv8tion.jda.api.managers.AudioManager;
 
 public class MessageListener extends ListenerAdapter {
 
@@ -16,17 +11,36 @@ public class MessageListener extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event) {
         Message message = event.getMessage();
         if (message.getContentRaw().charAt(0) != '!') return;
-        if (event.isFromType(ChannelType.PRIVATE)) {
-            System.out.printf("[PM] %s: %s\n", event.getAuthor().getName(),
-                    event.getMessage().getContentDisplay());
-        }
-        else {
-            System.out.printf("[%s][%s] %s: %s\n", event.getGuild().getName(),
-                    event.getTextChannel().getName(), Objects.requireNonNull(event.getMember()).getEffectiveName(),
-                    event.getMessage().getContentDisplay());
 
-            System.out.println(Arrays.toString(event.getMember().getRoles().stream().map(Role::getName).toArray()));
+        String command;
+        String params = "";
 
+        if (message.getContentRaw().contains(" ")) {
+            command = message.getContentRaw().substring(1, message.getContentRaw().indexOf(" "));
+            params = message.getContentRaw().substring(command.length()+1).strip();
+        } else {
+            command = message.getContentRaw().substring(1);
         }
+
+        switch (command) {
+            case "connect":
+                Member author = event.getMember();
+                for (VoiceChannel voiceChannel : event.getGuild().getVoiceChannels()) {
+                    if (voiceChannel.getMembers().contains(author)) {
+                        event.getGuild().getAudioManager().openAudioConnection(voiceChannel);
+                        break;
+                    }
+                }
+                break;
+            case "disconnect":
+                if (event.getGuild().getAudioManager().isConnected()) {
+                    event.getGuild().getAudioManager().closeAudioConnection();
+                }
+                break;
+            case "echo":
+                event.getChannel().sendMessage(params).queue();
+                break;
+        }
+
     }
 }
