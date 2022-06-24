@@ -1,9 +1,12 @@
 package com.adrian.gorski.discordBot.bot.events;
 
-import net.dv8tion.jda.api.entities.*;
+import com.adrian.gorski.discordBot.lavaplayer.GuildMusicManager;
+import com.adrian.gorski.discordBot.lavaplayer.PlayerManager;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.managers.AudioManager;
 
 public class MessageListener extends ListenerAdapter {
 
@@ -39,6 +42,14 @@ public class MessageListener extends ListenerAdapter {
                 break;
             case "echo":
                 event.getChannel().sendMessage(params).queue();
+                break;
+            case "bruh":
+                PlayerManager.getInstance().loadAndPlay(event.getTextChannel(), "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+                break;
+            case "stop":
+                GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(event.getGuild());
+                musicManager.getScheduler().getPlayer().stopTrack();
+                musicManager.getScheduler().getQueue().clear();
                 break;
         }
 
