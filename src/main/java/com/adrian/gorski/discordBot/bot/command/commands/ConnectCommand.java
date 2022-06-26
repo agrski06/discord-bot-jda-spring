@@ -1,14 +1,13 @@
 package com.adrian.gorski.discordBot.bot.command.commands;
 
 import com.adrian.gorski.discordBot.bot.command.Command;
-import com.adrian.gorski.discordBot.bot.command.SimpleCommand;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.List;
 
-public class ConnectCommand extends SimpleCommand {
+public class ConnectCommand extends Command {
 
     public ConnectCommand() {
         aliases = List.of("connect", "con");

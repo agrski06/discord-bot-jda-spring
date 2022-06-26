@@ -1,36 +1,29 @@
 package com.adrian.gorski.discordBot.bot.command.commands;
 
-import com.adrian.gorski.discordBot.bot.command.CommandWithArgs;
+import com.adrian.gorski.discordBot.bot.command.Command;
+import com.adrian.gorski.discordBot.bot.functionality.StaticMethods;
 import com.adrian.gorski.discordBot.lavaplayer.PlayerManager;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SoundCommand extends CommandWithArgs {
+public class SoundCommand extends Command {
 
     private final List<String> sounds;
 
     public SoundCommand() {
         aliases = List.of("sound", "s");
+        doesTakeArgs = true;
         sounds = new ArrayList<>();
 
         sounds.add("bruh");
     }
 
     @Override
-    public void handle(MessageReceivedEvent event, String args) {
-        if (!event.getGuild().getAudioManager().isConnected()) {
-            Member author = event.getMember();
-            for (VoiceChannel voiceChannel : event.getGuild().getVoiceChannels()) {
-                if (voiceChannel.getMembers().contains(author)) {
-                    event.getGuild().getAudioManager().openAudioConnection(voiceChannel);
-                    break;
-                }
-            }
-        }
+    public void handle(MessageReceivedEvent event) {
+        StaticMethods.connectIfDisconnected(event);
+
         if (!sounds.contains(args)) {
             event.getTextChannel().sendMessage("No such sound").queue();
             return;

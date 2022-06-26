@@ -1,12 +1,11 @@
 package com.adrian.gorski.discordBot.bot.command.commands;
 
 import com.adrian.gorski.discordBot.bot.command.Command;
-import com.adrian.gorski.discordBot.bot.command.SimpleCommand;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.List;
 
-public class PingCommand extends SimpleCommand {
+public class PingCommand extends Command {
 
     public PingCommand() {
         aliases = List.of("ping");
