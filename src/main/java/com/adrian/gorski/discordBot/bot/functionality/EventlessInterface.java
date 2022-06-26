@@ -1,17 +1,21 @@
 package com.adrian.gorski.discordBot.bot.functionality;
 
-import java.util.Collection;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.TextChannel;
+
+import java.util.List;
 
 public interface EventlessInterface {
+
     // info methods
-    void getBotImage();
-    void getStatus();
+    String getBotImage();
+    JDA.Status getStatus();
 
     // channels
-    void getChannels();
+    List<TextChannel> getTextChannels(String serverId);
 
     // commands
-    void sendMessage(String message);
-    void playSound();
+    void sendMessage(String serverId, String message);
+    void playSound(String serverId);
 
 }

@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 public class MessageController {
@@ -12,7 +14,9 @@ public class MessageController {
     private final MessageService service;
 
     @PostMapping("/api/send")
-    public void sendMessage(@RequestBody String message) {
-        service.sendMessage(message);
+    public void sendMessage(@RequestBody Map<String, String> json) {
+        String message = json.get("message");
+        String serverId = json.get("serverId");
+        service.sendMessage(serverId, message);
     }
 }
