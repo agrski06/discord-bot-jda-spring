@@ -29,6 +29,7 @@
 
 
 	<dependencies>
+
 		<!--	Lava player - playing sounds	-->
 		<dependency>
 			<groupId>com.sedmelluq</groupId>

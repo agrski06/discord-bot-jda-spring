@@ -2,11 +2,15 @@ package com.adrian.gorski.discordBot.bot.events;
 
 import com.adrian.gorski.discordBot.lavaplayer.GuildMusicManager;
 import com.adrian.gorski.discordBot.lavaplayer.PlayerManager;
+import com.adrian.gorski.discordBot.tts.TextToSpeech;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+
+import javax.script.ScriptException;
+import java.util.Arrays;
 
 public class MessageListener extends ListenerAdapter {
 
@@ -44,12 +48,25 @@ public class MessageListener extends ListenerAdapter {
                 event.getChannel().sendMessage(params).queue();
                 break;
             case "bruh":
-                PlayerManager.getInstance().loadAndPlay(event.getTextChannel(), "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+                PlayerManager.getInstance().loadAndPlay(event.getTextChannel(), "https://www.youtube.com/watch?v=dQw4w9WgXcQ", false);
                 break;
             case "stop":
                 GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(event.getGuild());
                 musicManager.getScheduler().getPlayer().stopTrack();
                 musicManager.getScheduler().getQueue().clear();
+                break;
+            case "speech":
+                TextToSpeech tts = new TextToSpeech();
+                try {
+                    StringBuilder text = new StringBuilder();
+                    String[] paramsWords = params.split(" ");
+                    for (String paramsWord : paramsWords) {
+                        text.append(paramsWord);
+                    }
+                    tts.speech(event.getTextChannel(), text.toString(), "pl");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
                 break;
         }
 

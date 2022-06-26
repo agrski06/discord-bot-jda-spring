@@ -34,7 +34,9 @@ public class InfoService {
             String iconUrl = item.getIconUrl();
 
             return "{\"icon\": \"" + (iconUrl == null ? "https://cdn.discordapp.com/embed/avatars/0.png" : iconUrl) + "\", "
-                    + "\"name\": \"" + item.getName() + "\"}";
+                    + "\"name\": \"" + item.getName() + "\", "
+                    + "\"id\": \"" + item.getId() + "\""
+                    + "}";
         }).toList();
 
         return result;
