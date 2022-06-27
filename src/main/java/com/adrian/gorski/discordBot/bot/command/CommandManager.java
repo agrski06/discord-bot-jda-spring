@@ -59,7 +59,7 @@ public class CommandManager {
         if (command != null) {
             if (command.doesTakeArgs()) {
                 // set arguments if command takes any
-                String args = Arrays.stream(text.split(" ")).skip(1).collect(Collectors.joining());
+                String args = Arrays.stream(text.split(" ")).skip(1).collect(Collectors.joining(" "));
                 command.setArgs(args);
             }
             command.handle(event);
