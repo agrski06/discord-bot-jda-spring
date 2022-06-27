@@ -20,9 +20,10 @@ public class StaticMethods {
                     return true;
                 }
             }
+            event.getTextChannel().sendMessage("Failed to connect. (You are probably not connected to the voice channel)").queue();
+            return false;
         }
-        event.getTextChannel().sendMessage("Failed to connect. (You are probably not connected to the voice channel)").queue();
-        return false;
+        return true;
     }
 
 }

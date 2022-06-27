@@ -17,6 +17,8 @@ public abstract class Command {
     protected boolean doesTakeArgs = false;
     protected String args;
 
+    protected char parameterPrefix = '-';
+
     /**
      * @return name of the command
      */

@@ -9,6 +9,8 @@ import java.util.List;
 
 public class SpeechCommand extends Command {
 
+    private final List<String> langs = List.of("es", "pl", "fr", "ko");
+
     public SpeechCommand() {
         aliases = List.of("speech", "sp", "tts");
         doesTakeArgs = true;
@@ -20,12 +22,21 @@ public class SpeechCommand extends Command {
 
         TextToSpeech tts = new TextToSpeech();
         try {
-            StringBuilder text = new StringBuilder();
-            String[] paramsWords = args.split(" ");
-            for (String paramsWord : paramsWords) {
-                text.append(paramsWord);
+            String language;
+
+            if (args.startsWith("-")) {
+                language = args.substring(1, args.indexOf(" "));
+                args = args.substring(args.indexOf(" "));
+            } else {
+                language = "pl";
             }
-            tts.speech(event.getTextChannel(), text.toString(), "pl");
+
+            if (!langs.contains(language)) {
+                event.getTextChannel().sendMessage("Invalid language!").queue();
+                return;
+            }
+
+            tts.speech(event.getTextChannel(), args, language);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
