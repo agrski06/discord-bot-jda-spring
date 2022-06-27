@@ -19,6 +19,8 @@ public class CommandManager {
         addCommand(new PingCommand());
         addCommand(new ConnectCommand());
         addCommand(new DisconnectCommand());
+        addCommand(new QueueCommand());
+        addCommand(new ShuffleCommand());
 
         // Commands which take arguments
         addCommand(new EchoCommand());
@@ -39,9 +41,8 @@ public class CommandManager {
 
     @Nullable
     private Command getCommand(String command) {
-        String search = command.toLowerCase();
         for (Command cmd : this.commands) {
-            if (cmd.getAliases().contains(search)) {
+            if (cmd.getAliases().contains(command.toLowerCase())) {
                 return cmd;
             }
         }
@@ -65,7 +66,9 @@ public class CommandManager {
         } else {
             event.getChannel().sendMessage("No such command").queue();
         }
-
     }
 
+    public List<Command> getCommands() {
+        return commands;
+    }
 }

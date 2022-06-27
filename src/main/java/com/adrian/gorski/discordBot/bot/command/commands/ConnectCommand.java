@@ -1,6 +1,7 @@
 package com.adrian.gorski.discordBot.bot.command.commands;
 
 import com.adrian.gorski.discordBot.bot.command.Command;
+import com.adrian.gorski.discordBot.bot.functionality.StaticMethods;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -14,13 +15,7 @@ public class ConnectCommand extends Command {
     }
 
     public void handle(MessageReceivedEvent event) {
-        Member author = event.getMember();
-        for (VoiceChannel voiceChannel : event.getGuild().getVoiceChannels()) {
-            if (voiceChannel.getMembers().contains(author)) {
-                event.getGuild().getAudioManager().openAudioConnection(voiceChannel);
-                return;
-            }
-        }
+        StaticMethods.connectIfDisconnected(event);
     }
 
     public String getName() {

@@ -9,18 +9,20 @@ public class StaticMethods {
     /**
      * Connects to voice channel if not already connected
      * @param event used for getting context
+     * @return true - connected, false - failed to connect
      */
-    public static void connectIfDisconnected(MessageReceivedEvent event) {
+    public static boolean connectIfDisconnected(MessageReceivedEvent event) {
         if (!event.getGuild().getAudioManager().isConnected()) {
             Member author = event.getMember();
             for (VoiceChannel voiceChannel : event.getGuild().getVoiceChannels()) {
                 if (voiceChannel.getMembers().contains(author)) {
                     event.getGuild().getAudioManager().openAudioConnection(voiceChannel);
-                    return;
+                    return true;
                 }
             }
         }
         event.getTextChannel().sendMessage("Failed to connect. (You are probably not connected to the voice channel)").queue();
+        return false;
     }
 
 }

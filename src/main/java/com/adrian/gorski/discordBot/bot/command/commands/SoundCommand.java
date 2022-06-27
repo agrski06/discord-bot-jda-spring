@@ -22,7 +22,7 @@ public class SoundCommand extends Command {
 
     @Override
     public void handle(MessageReceivedEvent event) {
-        StaticMethods.connectIfDisconnected(event);
+        if (!StaticMethods.connectIfDisconnected(event)) return;
 
         if (!sounds.contains(args)) {
             event.getTextChannel().sendMessage("No such sound").queue();
