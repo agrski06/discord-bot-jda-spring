@@ -37,15 +37,16 @@ public class PlayerManager {
         });
     }
 
-    public void loadAndPlay(TextChannel channel, String trackUrl, boolean isSilent) {
+    public void loadAndPlay(TextChannel channel, String trackUrl, boolean silent) {
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
 
         this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
+
                 musicManager.getScheduler().queue(track);
 
-                if (!isSilent)
+                if (!silent)
                     channel.sendMessage("Adding to queue: `")
                             .append(track.getInfo().title)
                             .append("` by `")
@@ -56,12 +57,19 @@ public class PlayerManager {
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
-                //
+                for (AudioTrack track : playlist.getTracks())
+                    musicManager.getScheduler().queue(track);
+
+                if (!silent)
+                    channel.sendMessage("Added to queue: `")
+                            .append(playlist.getName())
+                            .append("`")
+                            .queue();
             }
 
             @Override
             public void noMatches() {
-                //
+                channel.sendMessage("No matches for given link").queue();
             }
 
             @Override
