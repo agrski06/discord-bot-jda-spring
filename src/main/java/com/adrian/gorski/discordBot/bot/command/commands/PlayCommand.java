@@ -40,7 +40,7 @@ public class PlayCommand extends Command {
 
     private boolean isUrl(String text) {
         try {
-            URL obj = new URL(text);
+            new URL(text);
         } catch (MalformedURLException e) {
             return false;
         }

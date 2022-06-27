@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SpeechCommand extends Command {
 
-    private final List<String> langs = List.of("es", "pl", "fr", "ko");
+    private final List<String> langs = List.of("pl", "en", "es", "fr", "ko", "de");
 
     public SpeechCommand() {
         aliases = List.of("speech", "sp", "tts");
@@ -54,6 +54,9 @@ public class SpeechCommand extends Command {
                 + "\nSpeaks given phrase. Language is optional, default is pl";
     }
 
+    public List<String> getLangs() {
+        return langs;
+    }
 }
 
 //        "af": "Afrikaans",

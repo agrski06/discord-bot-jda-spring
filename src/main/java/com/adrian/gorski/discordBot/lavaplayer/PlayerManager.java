@@ -1,5 +1,6 @@
 package com.adrian.gorski.discordBot.lavaplayer;
 
+import com.sedmelluq.discord.lavaplayer.player.AudioConfiguration;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -16,10 +17,13 @@ import java.util.Map;
 public class PlayerManager {
     private static PlayerManager INSTANCE;
 
+    private final PlayerConfig playerConfig;
+
     private final Map<Long, GuildMusicManager> musicManagers;
     private final AudioPlayerManager audioPlayerManager;
 
     public PlayerManager() {
+        this.playerConfig = new PlayerConfig();
         this.musicManagers = new HashMap<>();
         this.audioPlayerManager = new DefaultAudioPlayerManager();
 
@@ -35,6 +39,18 @@ public class PlayerManager {
 
             return guildMusicManager;
         });
+    }
+
+    public void setBassBoost(Guild guild, float percentage) {
+        this.getMusicManager(guild).getAudioPlayer().setFilterFactory(this.playerConfig.getEqualizer());
+        this.getMusicManager(guild).getAudioPlayer().setFrameBufferDuration(250);
+
+        this.getAudioPlayerManager().getConfiguration().setFilterHotSwapEnabled(true);
+
+        final float multiplier = percentage / 100.00f;
+        for (int i = 0; i < playerConfig.BASS_BOOST().length; i++) {
+            this.playerConfig.getEqualizer().setGain(i, this.playerConfig.BASS_BOOST()[i] * multiplier);
+        }
     }
 
     public void loadAndPlay(TextChannel channel, String trackUrl, boolean silent) {
@@ -57,8 +73,12 @@ public class PlayerManager {
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
-                for (AudioTrack track : playlist.getTracks())
-                    musicManager.getScheduler().queue(track);
+                // Queues only the first search result
+                if (!playlist.isSearchResult())
+                    for (AudioTrack track : playlist.getTracks())
+                        musicManager.getScheduler().queue(track);
+                else
+                    musicManager.getScheduler().queue(playlist.getTracks().get(0));
 
                 if (!silent)
                     channel.sendMessage("Added to queue: `")
@@ -87,4 +107,7 @@ public class PlayerManager {
         return INSTANCE;
     }
 
+    public AudioPlayerManager getAudioPlayerManager() {
+        return audioPlayerManager;
+    }
 }

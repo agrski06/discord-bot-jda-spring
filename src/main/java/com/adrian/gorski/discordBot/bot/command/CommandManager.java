@@ -3,7 +3,6 @@ package com.adrian.gorski.discordBot.bot.command;
 import com.adrian.gorski.discordBot.bot.command.commands.*;
 import com.adrian.gorski.discordBot.bot.config.Bot;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +30,7 @@ public class CommandManager {
         addCommand(new SpeechCommand());
         addCommand(new PlayCommand());
         addCommand(new HelpCommand());
+        addCommand(new BassCommand());
     }
 
     private void addCommand(Command command) {
