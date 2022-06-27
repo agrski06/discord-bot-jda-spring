@@ -12,4 +12,6 @@ public class Bot {
 
     private JDA jda;
 
+    public static String prefix = "!";
+
 }
