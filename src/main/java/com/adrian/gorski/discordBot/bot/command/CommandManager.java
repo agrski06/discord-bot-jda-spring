@@ -31,6 +31,7 @@ public class CommandManager {
         addCommand(new PlayCommand());
         addCommand(new HelpCommand());
         addCommand(new BassCommand());
+        addCommand(new SkipCommand());
     }
 
     private void addCommand(Command command) {
