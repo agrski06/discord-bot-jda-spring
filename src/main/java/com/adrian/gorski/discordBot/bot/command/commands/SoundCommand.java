@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SoundCommand extends Command {
 
@@ -38,7 +39,7 @@ public class SoundCommand extends Command {
 
     @Override
     public String getHelp() {
-        return "Plays the sound passed as argument";
+        return "`sound`\n" + "Sounds: " + String.join(", ", sounds) + "\nPlays the sound passed as argument";
     }
 
 }

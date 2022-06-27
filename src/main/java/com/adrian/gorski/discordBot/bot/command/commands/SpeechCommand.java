@@ -49,7 +49,9 @@ public class SpeechCommand extends Command {
 
     @Override
     public String getHelp() {
-        return "Speaks whatever you type";
+        return "(-`lang`) `text`\n"
+                + "Languages: " + String.join(", ", langs)
+                + "\nSpeaks given phrase. Language is optional, default is pl";
     }
 
 }

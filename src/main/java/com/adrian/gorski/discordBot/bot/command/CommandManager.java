@@ -1,6 +1,9 @@
 package com.adrian.gorski.discordBot.bot.command;
 
 import com.adrian.gorski.discordBot.bot.command.commands.*;
+import com.adrian.gorski.discordBot.bot.config.Bot;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +30,7 @@ public class CommandManager {
         addCommand(new SoundCommand());
         addCommand(new SpeechCommand());
         addCommand(new PlayCommand());
+        addCommand(new HelpCommand());
     }
 
     private void addCommand(Command command) {
@@ -51,7 +55,7 @@ public class CommandManager {
 
     public void handle(MessageReceivedEvent event) {
         String text = event.getMessage().getContentRaw();
-        if (text.charAt(0) != '!') return;
+        if (!text.startsWith(Bot.prefix)) return;
 
         String commandText = text.substring(1).split(" ")[0];
         Command command = getCommand(commandText);
@@ -71,4 +75,37 @@ public class CommandManager {
     public List<Command> getCommands() {
         return commands;
     }
+
+    // Inner class - help command, requires access to commands
+    private class HelpCommand extends Command {
+
+        public HelpCommand() {
+            aliases = List.of("help");
+        }
+
+        @Override
+        public String getName() {
+            return "help";
+        }
+
+        @Override
+        public String getHelp() {
+            return "Displays all the commands";
+        }
+
+        @Override
+        public void handle(MessageReceivedEvent event) {
+            EmbedBuilder embedBuilder = new EmbedBuilder();
+            embedBuilder.setTitle("Commands");
+            embedBuilder.addField("Prefix: " + Bot.prefix, "\n", false);
+            for (Command command : getCommands()) {
+                embedBuilder.addField(command.getName(),
+                        "[" + String.join(", ", command.getAliases()) + "] "
+                                + (command.doesTakeArgs() ? "" : "\n") + command.getHelp(),
+                        !command.doesTakeArgs());
+            }
+            event.getTextChannel().sendMessageEmbeds(embedBuilder.build()).queue();
+        }
+    }
+
 }

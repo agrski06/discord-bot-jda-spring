@@ -14,14 +14,17 @@ public class ConnectCommand extends Command {
         aliases = List.of("connect", "con");
     }
 
+    @Override
     public void handle(MessageReceivedEvent event) {
         StaticMethods.connectIfDisconnected(event);
     }
 
+    @Override
     public String getName() {
         return "connect";
     }
 
+    @Override
     public String getHelp() {
         return "Connects the Bot to the channel containing the author of the command";
     }

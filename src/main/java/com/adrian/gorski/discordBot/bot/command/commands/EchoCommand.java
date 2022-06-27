@@ -24,6 +24,6 @@ public class EchoCommand extends Command {
 
     @Override
     public String getHelp() {
-        return "Types whatever you type";
+        return "`text` \nTypes whatever you type";
     }
 }

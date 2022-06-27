@@ -35,7 +35,7 @@ public class PlayCommand extends Command {
 
     @Override
     public String getHelp() {
-        return "!play <link> - Plays music!";
+        return "`link` or `search phrase` \nPlays music!";
     }
 
     private boolean isUrl(String text) {
