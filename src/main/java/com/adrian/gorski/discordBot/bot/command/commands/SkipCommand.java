@@ -30,8 +30,9 @@ public class SkipCommand extends Command {
                 .getAudioPlayer().getPlayingTrack();
 
         if (currentTrack != null) {
-            if (args.isEmpty() || args.isBlank() || args == null) {
-                currentTrack.setPosition(currentTrack.getPosition() + Long.parseLong(args));
+            if (!args.isEmpty()) {
+                // * 1000, seconds to milliseconds
+                currentTrack.setPosition(currentTrack.getPosition() + (Long.parseLong(args) * 1000));
             }
             else {
                 PlayerManager.getInstance().getMusicManager(event.getGuild()).getScheduler().nextTrack();
