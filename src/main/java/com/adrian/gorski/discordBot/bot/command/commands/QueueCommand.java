@@ -3,9 +3,13 @@ package com.adrian.gorski.discordBot.bot.command.commands;
 import com.adrian.gorski.discordBot.bot.command.Command;
 import com.adrian.gorski.discordBot.lavaplayer.PlayerManager;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
+import java.awt.*;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.List;
 
@@ -27,22 +31,46 @@ public class QueueCommand extends Command {
 
     @Override
     public void handle(MessageReceivedEvent event) {
-        StringBuilder message = new StringBuilder();
         List<AudioTrack> audioTracks = PlayerManager.getInstance().getMusicManager(event.getGuild())
                 .getScheduler().getQueue().stream().toList();
+
+        AudioTrack currentTrack = PlayerManager.getInstance().getMusicManager(event.getGuild())
+                .getAudioPlayer().getPlayingTrack();
+
+        if (PlayerManager.getInstance().getMusicManager(event.getGuild()).getScheduler().getQueue().isEmpty()
+                && currentTrack == null) {
+            event.getTextChannel().sendMessage("Queue empty").queue();
+            return;
+        }
+
+        EmbedBuilder eb = new EmbedBuilder()
+                .setColor(new Color(2553434))
+                .setAuthor("Queue:", null, null)
+                .addField("Playing:", "[" + currentTrack.getInfo().title + "](" + currentTrack.getInfo().uri + ")", false);
+
+        String url = currentTrack.getInfo().uri;
+        if (isUrl(url)) {
+            eb.setThumbnail("https://img.youtube.com/vi/"
+                    + url.substring(url.indexOf("v=")+2)
+                    + "/0.jpg");
+        }
+
+        // If queue is empty then to not show the rest of embed
+        if (PlayerManager.getInstance().getMusicManager(event.getGuild()).getScheduler().getQueue().isEmpty()) {
+            event.getTextChannel().sendMessageEmbeds(eb.build()).queue();
+            return;
+        }
+
         int i = 1;
         for (AudioTrack audioTrack : audioTracks) {
-            message.append(i++).append(". ");
             if (isUrl(audioTrack.getInfo().uri))
-                message.append("`").append(audioTrack.getInfo().title).append("` by `")
-                    .append(audioTrack.getInfo().author).append("`\n");
+                eb.addField((i++) + ". " + audioTrack.getInfo().title, audioTrack.getInfo().author, false);
             else
-                message.append("`Text to speech`");
+                eb.addField((i++) + ". " + "Text to speech", " ", false);
         }
-        if (!message.toString().isEmpty())
-            event.getTextChannel().sendMessage(message.toString()).queue();
-        else
-            event.getTextChannel().sendMessage("Empty queue").queue();
+
+        event.getTextChannel().sendMessageEmbeds(eb.build()).queue();
+
     }
 
     private boolean isUrl(String text) {

@@ -17,12 +17,13 @@ public class CommandManager {
     private final List<Command> commands = new ArrayList<>();
 
     public CommandManager() {
-        //Commands which do not take arguments
+        //Commands which do NOT take arguments
         addCommand(new PingCommand());
         addCommand(new ConnectCommand());
         addCommand(new DisconnectCommand());
         addCommand(new QueueCommand());
         addCommand(new ShuffleCommand());
+        addCommand(new ClearCommand());
 
         // Commands which take arguments
         addCommand(new EchoCommand());
