@@ -1,6 +1,8 @@
 *.mp3
 
 /src/main/java/com/adrian/gorski/discordBot/SoundsMap.java
+/src/main/java/com/adrian/gorski/discordBot/bot/events/JoinOnCertainHour.java
+
 
 HELP.md
 target/
