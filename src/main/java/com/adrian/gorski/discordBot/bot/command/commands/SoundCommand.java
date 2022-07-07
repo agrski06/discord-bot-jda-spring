@@ -11,6 +11,10 @@ import java.util.Map;
 
 public class SoundCommand extends Command {
 
+    /**
+     * V: name
+     * K: URL
+     */
     private final Map<String, String> sounds;
 
     public SoundCommand() {

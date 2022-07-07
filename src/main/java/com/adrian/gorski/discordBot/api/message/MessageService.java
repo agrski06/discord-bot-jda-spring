@@ -6,19 +6,16 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.springframework.stereotype.Service;
 
-import java.util.Locale;
-import java.util.Objects;
-
 @Service
 @RequiredArgsConstructor
 public class MessageService {
 
     private final Bot bot;
 
-    public void sendMessage(String serverId, String message) {
+    public void sendMessage(String serverId, String message, String channelId) {
         Guild guild = bot.getJda().getGuildById(serverId);
         if (guild != null) {
-            TextChannel channel = guild.getTextChannels().get(0);
+            TextChannel channel = guild.getTextChannelById(channelId);
             if (channel != null) {
                 channel.sendMessage(message).queue();
             }

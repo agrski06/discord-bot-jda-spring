@@ -17,6 +17,7 @@ public class MessageController {
     public void sendMessage(@RequestBody Map<String, String> json) {
         String message = json.get("message");
         String serverId = json.get("serverId");
-        service.sendMessage(serverId, message);
+        String channelId = json.get("channelId");
+        service.sendMessage(serverId, message, channelId);
     }
 }

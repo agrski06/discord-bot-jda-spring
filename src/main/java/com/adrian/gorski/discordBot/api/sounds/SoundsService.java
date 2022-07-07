@@ -17,10 +17,10 @@ import java.util.List;
 public class SoundsService {
     private final Bot bot;
 
-    public void sendTTS(String serverId, String text, String lang) throws IOException, InterruptedException {
+    public void sendTTS(String serverId, String text, String lang, String channelId) throws IOException, InterruptedException {
         Guild guild = bot.getJda().getGuildById(serverId);
         if (guild != null) {
-            TextChannel channel = guild.getTextChannels().get(0);
+            TextChannel channel = guild.getTextChannelById(channelId);
             if (channel != null) {
                 TextToSpeech tts = new TextToSpeech();
                 tts.speech(guild.getSystemChannel(), text, lang);

@@ -25,11 +25,12 @@ public class SoundsController {
         String text = json.get("text");
         String serverId = json.get("serverId");
         String lang = json.get("lang");
+        String channelId = json.get("channelId");
         try {
             if (text.isEmpty()) {
                 return new ResponseEntity<>("Provide text!", HttpStatus.BAD_REQUEST);
             }
-            service.sendTTS(serverId, text, lang);
+            service.sendTTS(serverId, text, lang, channelId);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (IOException | InterruptedException e) {
             return new ResponseEntity<>(errorService.error(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -43,7 +44,7 @@ public class SoundsController {
 
     @GetMapping("/api/get/sounds")
     public ResponseEntity<List<String>> getSounds() {
-        return new ResponseEntity<>(service.getLanguages(), HttpStatus.OK);
+        return new ResponseEntity<>(service.getSounds(), HttpStatus.OK);
     }
 
 }
