@@ -39,7 +39,7 @@ public class QueueCommand extends Command {
 
         if (PlayerManager.getInstance().getMusicManager(event.getGuild()).getScheduler().getQueue().isEmpty()
                 && currentTrack == null) {
-            event.getTextChannel().sendMessage("Queue empty").queue();
+            event.getChannel().sendMessage("Queue empty").queue();
             return;
         }
 
@@ -57,7 +57,7 @@ public class QueueCommand extends Command {
 
         // If queue is empty then to not show the rest of embed
         if (PlayerManager.getInstance().getMusicManager(event.getGuild()).getScheduler().getQueue().isEmpty()) {
-            event.getTextChannel().sendMessageEmbeds(eb.build()).queue();
+            event.getChannel().sendMessageEmbeds(eb.build()).queue();
             return;
         }
 
@@ -69,7 +69,7 @@ public class QueueCommand extends Command {
                 eb.addField((i++) + ". " + "Text to speech", " ", false);
         }
 
-        event.getTextChannel().sendMessageEmbeds(eb.build()).queue();
+        event.getChannel().sendMessageEmbeds(eb.build()).queue();
 
     }
 

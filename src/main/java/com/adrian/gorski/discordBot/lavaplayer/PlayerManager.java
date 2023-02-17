@@ -9,7 +9,7 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,12 +63,11 @@ public class PlayerManager {
                 musicManager.getScheduler().queue(track);
 
                 if (!silent)
-                    channel.sendMessage("Adding to queue: `")
-                            .append(track.getInfo().title)
-                            .append("` by `")
-                            .append(track.getInfo().author)
-                            .append('`')
-                            .queue();
+                    channel.sendMessage("Adding to queue: `" +
+                                    track.getInfo().title +
+                                    "` by `" +
+                                    track.getInfo().author +
+                                    '`').queue();
             }
 
             @Override
@@ -81,10 +80,7 @@ public class PlayerManager {
                     musicManager.getScheduler().queue(playlist.getTracks().get(0));
 
                 if (!silent)
-                    channel.sendMessage("Added to queue: `")
-                            .append(playlist.getName())
-                            .append("`")
-                            .queue();
+                    channel.sendMessage("Added to queue: `" + playlist.getName() + "`").queue();
             }
 
             @Override

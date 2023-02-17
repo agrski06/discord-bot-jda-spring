@@ -1,12 +1,14 @@
 package com.adrian.gorski.discordBot.bot.command;
 
+import com.adrian.gorski.discordBot.api.sounds.SoundsService;
 import com.adrian.gorski.discordBot.bot.command.commands.*;
 import com.adrian.gorski.discordBot.bot.config.Bot;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +18,7 @@ import java.util.stream.Collectors;
 public class CommandManager {
     private final List<Command> commands = new ArrayList<>();
 
-    public CommandManager() {
+    public CommandManager(SoundsService soundsService) {
         //Commands which do NOT take arguments
         addCommand(new PingCommand());
         addCommand(new ConnectCommand());
@@ -27,12 +29,13 @@ public class CommandManager {
 
         // Commands which take arguments
         addCommand(new EchoCommand());
-        addCommand(new SoundCommand());
+        addCommand(new SoundCommand(soundsService));
         addCommand(new SpeechCommand());
         addCommand(new PlayCommand());
         addCommand(new HelpCommand());
         addCommand(new BassCommand());
         addCommand(new SkipCommand());
+
     }
 
     private void addCommand(Command command) {
@@ -74,6 +77,7 @@ public class CommandManager {
         }
     }
 
+
     public List<Command> getCommands() {
         return commands;
     }
@@ -106,7 +110,7 @@ public class CommandManager {
                                 + (command.doesTakeArgs() ? "" : "\n") + command.getHelp(),
                         !command.doesTakeArgs());
             }
-            event.getTextChannel().sendMessageEmbeds(embedBuilder.build()).queue();
+            event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
         }
     }
 

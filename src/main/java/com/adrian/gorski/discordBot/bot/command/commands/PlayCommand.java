@@ -22,9 +22,9 @@ public class PlayCommand extends Command {
 
         args = args.strip();
         if (isUrl(args)) {
-            PlayerManager.getInstance().loadAndPlay(event.getTextChannel(), args, false);
+            PlayerManager.getInstance().loadAndPlay(event.getChannel().asTextChannel(), args, false);
         } else {
-            PlayerManager.getInstance().loadAndPlay(event.getTextChannel(), "ytsearch:" + args, false);
+            PlayerManager.getInstance().loadAndPlay(event.getChannel().asTextChannel(), "ytsearch:" + args, false);
         }
     }
 

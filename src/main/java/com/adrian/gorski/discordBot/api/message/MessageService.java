@@ -3,7 +3,7 @@ package com.adrian.gorski.discordBot.api.message;
 import com.adrian.gorski.discordBot.bot.config.Bot;
 import lombok.RequiredArgsConstructor;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.springframework.stereotype.Service;
 
 @Service

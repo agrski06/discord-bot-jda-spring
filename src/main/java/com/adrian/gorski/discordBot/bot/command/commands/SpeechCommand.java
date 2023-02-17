@@ -32,11 +32,11 @@ public class SpeechCommand extends Command {
             }
 
             if (!langs.contains(language)) {
-                event.getTextChannel().sendMessage("Invalid language!").queue();
+                event.getChannel().sendMessage("Invalid language!").queue();
                 return;
             }
 
-            tts.speech(event.getTextChannel(), args, language);
+            tts.speech(event.getChannel().asTextChannel(), args, language);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
