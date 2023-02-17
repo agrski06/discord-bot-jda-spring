@@ -14,7 +14,7 @@ public class PingCommand extends Command {
     @Override
     public void handle(MessageReceivedEvent event) {
         event.getJDA().getRestPing().queue(
-                ping -> event.getTextChannel().sendMessage("Rest ping: " + ping).queue()
+                ping -> event.getChannel().sendMessage("Rest ping: " + ping).queue()
         );
     }
 

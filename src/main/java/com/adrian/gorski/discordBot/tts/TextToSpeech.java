@@ -1,7 +1,7 @@
 package com.adrian.gorski.discordBot.tts;
 
 import com.adrian.gorski.discordBot.lavaplayer.PlayerManager;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 import java.io.IOException;
 

@@ -1,14 +1,16 @@
 package com.adrian.gorski.discordBot.bot.command.commands;
 
-import com.adrian.gorski.discordBot.SoundsMap;
+import com.adrian.gorski.discordBot.api.sounds.SoundsService;
 import com.adrian.gorski.discordBot.bot.command.Command;
 import com.adrian.gorski.discordBot.bot.functionality.StaticMethods;
 import com.adrian.gorski.discordBot.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class SoundCommand extends Command {
 
     /**
@@ -17,11 +19,11 @@ public class SoundCommand extends Command {
      */
     private final Map<String, String> sounds;
 
-    public SoundCommand() {
+    public SoundCommand(SoundsService soundsService) {
         aliases = List.of("sound", "s");
         doesTakeArgs = true;
 
-        sounds = SoundsMap.getMap();
+        sounds = soundsService.getSoundsAsMap();
     }
 
     @Override
@@ -29,10 +31,10 @@ public class SoundCommand extends Command {
         if (!StaticMethods.connectIfDisconnected(event)) return;
 
         if (!sounds.containsKey(args)) {
-            event.getTextChannel().sendMessage("No such sound").queue();
+            event.getChannel().sendMessage("No such sound").queue();
             return;
         }
-        PlayerManager.getInstance().loadAndPlay(event.getTextChannel(), sounds.get(args), true);
+        PlayerManager.getInstance().loadAndPlay(event.getChannel().asTextChannel(), sounds.get(args), true);
     }
 
     @Override
@@ -45,7 +47,4 @@ public class SoundCommand extends Command {
         return "`sound`\n" + "Sounds: " + String.join(", ", sounds.keySet()) + "\nPlays the sound passed as argument";
     }
 
-    public List<String> getSounds() {
-        return sounds.keySet().stream().toList();
-    }
 }

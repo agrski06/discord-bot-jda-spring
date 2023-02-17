@@ -1,7 +1,7 @@
 package com.adrian.gorski.discordBot.bot.functionality;
 
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class StaticMethods {
@@ -20,7 +20,7 @@ public class StaticMethods {
                     return true;
                 }
             }
-            event.getTextChannel().sendMessage("Failed to connect. (You are probably not connected to the voice channel)").queue();
+            event.getChannel().sendMessage("Failed to connect. (You are probably not connected to the voice channel)").queue();
             return false;
         }
         return true;

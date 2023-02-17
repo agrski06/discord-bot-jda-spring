@@ -25,6 +25,6 @@ public class ShuffleCommand extends Command {
     @Override
     public void handle(MessageReceivedEvent event) {
         PlayerManager.getInstance().getMusicManager(event.getGuild()).getScheduler().shuffleQueue();
-        event.getTextChannel().sendMessage("Queue shuffled!").queue();
+        event.getChannel().sendMessage("Queue shuffled!").queue();
     }
 }

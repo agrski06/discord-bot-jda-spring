@@ -24,6 +24,6 @@ public class ClearCommand extends Command {
     @Override
     public void handle(MessageReceivedEvent event) {
         PlayerManager.getInstance().getMusicManager(event.getGuild()).getScheduler().clearQueue();
-        event.getTextChannel().sendMessage("Queue cleared!").queue();
+        event.getChannel().sendMessage("Queue cleared!").queue();
     }
 }
